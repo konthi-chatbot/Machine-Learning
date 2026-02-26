@@ -97,22 +97,39 @@ if selected == 'Used_cars':
 
     st.success(Price_predict)
 
-if selected== 'BMI':
+if selected == 'BMI':
     st.title('BMI Classification')
-    
-    Gender = st.text_input('Gender')
-    Height = st.text_input('Height')
-    Weight = st.text_input('Weight')
-    Riding_prediction = ''
-    if st.button('Predict'):
-        bmi_prediction = bmi_model.predict([[
-            float(Gender),
-            float(Height),
-            float(Weight),
-            ]])
-        if bmi_prediction[0]==1:
-            bmi_prediction = 'Owner'
-        else:
-            bmi_prediction = 'Non Owner'
-    st.success(Riding_prediction)
 
+    # ใช้ selectbox แทน text_input สำหรับ Gender
+    Gender = st.selectbox('Gender', ['Male', 'Female'])
+    Height = st.number_input('Height (cm)', min_value=50.0)
+    Weight = st.number_input('Weight (kg)', min_value=10.0)
+
+    if st.button('Predict'):
+
+        # แปลง Gender เป็นตัวเลขให้ตรงกับตอน train model
+        # สมมติ Male=1, Female=0
+        if Gender == 'Male':
+            Gender_val = 1
+        else:
+            Gender_val = 0
+
+        bmi_prediction = bmi_model.predict([[
+            Gender_val,
+            Height,
+            Weight
+        ]])
+
+        # แปลงค่าผลลัพธ์ 0-5 เป็นข้อความ
+        bmi_dict = {
+            0: 'Extremely Weak',
+            1: 'Weak',
+            2: 'Normal',
+            3: 'Overweight',
+            4: 'Obesity',
+            5: 'Extreme Obesity'
+        }
+
+        result = bmi_dict[bmi_prediction[0]]
+
+        st.success(f'BMI Classification: {result}')
