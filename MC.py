@@ -122,14 +122,15 @@ if selected == 'BMI':
 
         # แปลงค่าผลลัพธ์ 0-5 เป็นข้อความ
         bmi_dict = {
-            0: 'Extremely Weak',
-            1: 'Weak',
-            2: 'Normal',
-            3: 'Overweight',
-            4: 'Obesity',
-            5: 'Extreme Obesity'
+            0: 'อ่อนแอมาก',
+            1: 'อ่อนแอ',
+            2: 'ปกติ',
+            3: 'น้ำหนักเกิน',
+            4: 'โรคอ้วน',
+            5: 'โรคอ้วนขั้นรุนแรง'
         }
 
         result = bmi_dict[bmi_prediction[0]]
 
         st.success(f'BMI Classification: {result}')
+
